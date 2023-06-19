@@ -15,7 +15,6 @@ app.use(
 app.use(express.static("public"));
 
 // creating schema
-
 const articleSchema = {
   title: String,
   content: String,
@@ -27,6 +26,17 @@ const Article = mongoose.model("Article", articleSchema);
 mongoose.set("strictQuery", false);
 mongoose.connect("mongodb://127.0.0.1/wikiDB", { useNewUrlParser: true });
 //TODO
+
+//GET ROUT, this methodes get all items in the articles model and print it.
+
+app.get("/articles", function (req, res) {
+  Article.find(function (err, foundArticles) {
+    // To print it on browser using console log.
+    // console.log(foundArticles);
+    // To print it on browser using res.send
+    res.send(foundArticles);
+  });
+});
 
 app.listen(3000, function () {
   console.log("Server started succesfully on port 3000");
