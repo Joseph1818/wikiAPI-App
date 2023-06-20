@@ -34,7 +34,30 @@ app.get("/articles", function (req, res) {
     // To print it on browser using console log.
     // console.log(foundArticles);
     // To print it on browser using res.send
-    res.send(foundArticles);
+    if (!err) {
+      res.send(foundArticles);
+    } else {
+      res.send(err);
+    }
+  });
+});
+
+// POST ROUTE
+app.post("/articles", function (req, res) {
+  console.log();
+  console.log();
+
+  //Creating data inside. Mogodb database
+  const ArticleData = new Article({
+    tile: res.body.title,
+    content: res.body.content,
+  });
+  ArticleData.save(function(err){
+    if (!err) {
+        res.send("Successfuly added a new article.");
+    } else {
+        res.send(err);
+    }
   });
 });
 
