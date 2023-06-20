@@ -55,7 +55,7 @@ app
     });
     ArticleData.save(function (err) {
       if (!err) {
-        res.send("Successfuly added a new article.");
+        res.send("Successfully added a new article.");
       } else {
         res.send(err);
       }
@@ -67,14 +67,13 @@ app
       ("/articles",
       function (req, res) {
         if (!err) {
-          res.send("Deleted succesfully");
+          res.send("Deleted successfully");
         } else {
           res.send(err);
         }
       })
     );
   });
-
 //GET ROUT Methods, this methodes get all items in the articles model and print it.
 // app.get("/articles", function (req, res) {
 //   Article.find(function (err, foundArticles) {
@@ -101,7 +100,7 @@ app
 //   });
 //   ArticleData.save(function (err) {
 //     if (!err) {
-//       res.send("Successfuly added a new article.");
+//       res.send("Successfully added a new article.");
 //     } else {
 //       res.send(err);
 //     }
@@ -115,7 +114,7 @@ app
 //     ("/articles",
 //     function (req, res) {
 //       if (!err) {
-//         res.send("Deleted succesfully");
+//         res.send("Deleted successfully");
 //       } else {
 //         res.send(err);
 //       }
@@ -152,10 +151,30 @@ app
         }
       }
     );
+  })
+  .patch(function (req, res) {
+    Article.updateOne(
+      { title: req.params.articleTtile },
+      { $set: req.body },
+      function (err) {
+        if (!err) {
+          res.send("Successfully Updated.");
+        } else {
+          res.send(err);
+        }
+      }
+    );
+  })
+  .delete(function (req, res) {
+    Article.deleteOne({ title:req.params.articleTtile },function (err) {
+      if (!err) {
+        res.send("Successfully deleleted");
+      } else {
+        res.send(err);
+      }
+    });
   });
 
-
-  
 app.listen(3000, function () {
-  console.log("Server started succesfully on port 3000");
+  console.log("Server started successfully on port 3000");
 });
