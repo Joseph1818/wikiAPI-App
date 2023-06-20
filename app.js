@@ -27,8 +27,9 @@ mongoose.set("strictQuery", false);
 mongoose.connect("mongodb://127.0.0.1/wikiDB", { useNewUrlParser: true });
 //TODO
 
-// Chainable route handlers for a route path using app.route()(Reduces redundancy & specified at a single location).
+////////////////////// Request Targetting Articles///////////////////////////////
 
+// Chainable route handlers for a route path using app.route()(Reduces redundancy & specified at a single location).
 app
   .route("/articles")
   .get(function (req, res) {
@@ -122,6 +123,39 @@ app
 //   );
 // });
 
+////////////////////// Request Targetting  A single article///////////////////////////////
+
+app
+  .route("/aticles/:articleTtile")
+  .get(function (req, res) {
+    Article.findOne(
+      { tile: req.params.articleTtile },
+      function (err, foundArticles) {
+        if (foundArticles) {
+          res.send(foundArticles);
+        } else {
+          res.send("No articles found.");
+        }
+      }
+    );
+  })
+  .put(function (req, res) {
+    Article.updateOne(
+      { title: req.params.articleTtile },
+      { title: req.body.title, content: req.body.content },
+      { overwrite: true },
+      function (err) {
+        if (!err) {
+          res.send("Successfully udapted articles.");
+        } else {
+          res.send(err);
+        }
+      }
+    );
+  });
+
+
+  
 app.listen(3000, function () {
   console.log("Server started succesfully on port 3000");
 });
